@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "db:generate": "supabase gen types typescript --project-id YOUR_PROJECT_ID --schema public > types/database.ts",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push",
+    "db:pull": "supabase db pull",
+    "seed": "tsx scripts/seed.ts",
+    "worker:email": "NODE_ENV=production WORKER_TYPE=email node worker.js",
+    "worker:social": "NODE_ENV=production WORKER_TYPE=social node worker.js",
+    "build:mobile": "cd mobile && expo build:android && expo build:ios",
+    "mobile:dev": "cd mobile && expo start",
+    "mobile:android": "cd mobile && expo start --android",
+    "mobile:ios": "cd mobile && expo start --ios"
+  }
+}

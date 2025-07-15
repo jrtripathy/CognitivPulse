@@ -1,0 +1,16 @@
+FROM node:18-alpine AS base
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine AS worker
+WORKDIR /app
+COPY --from=base /app/node_modules ./node_modules
+COPY . .
+
+ENV NODE_ENV=production
+
+# Create worker script
+RUN echo 'import { emailWorker } from "./lib/queue/email-queue.js";\nimport { socialWorker } from "./lib/queue/social-queue.js";\n\nconst workerType = process.env.WORKER_TYPE || "email";\n\nconsole.log(`Starting ${workerType} worker...`);\n\nif (workerType === "email") {\n  emailWorker.run();\n} else if (workerType === "social") {\n  socialWorker.run();\n}\n\nprocess.on("SIGTERM", () => {\n  console.log("Worker shutting down...");\n  process.exit(0);\n});' > worker.js
+
+CMD ["node", "worker.js"]
