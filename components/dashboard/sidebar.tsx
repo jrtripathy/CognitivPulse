@@ -34,7 +34,7 @@ export function Sidebar() {
     <div className="flex h-full w-64 flex-col bg-gray-900">
       <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
         <div className="flex flex-shrink-0 items-center px-4">
-          <h1 className="text-xl font-bold text-white">MarketingOS</h1>
+          <h1 className="text-xl font-bold text-[#3B82F6]">CognitivPulse</h1>
         </div>
         <nav className="mt-8 flex-1 space-y-1 px-2">
           {navigation.map((item) => {

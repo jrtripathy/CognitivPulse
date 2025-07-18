@@ -2,6 +2,7 @@ import { Facebook } from './platforms/facebook'
 import { Twitter } from './platforms/twitter'
 import { LinkedIn } from './platforms/linkedin'
 import { Instagram } from './platforms/instagram'
+import { createAdminClient } from './createAdminClient'
 
 interface SocialPost {
   id: string

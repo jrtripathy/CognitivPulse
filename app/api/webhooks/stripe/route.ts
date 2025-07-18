@@ -6,7 +6,7 @@ import Stripe from 'stripe'
 
 export async function POST(request: NextRequest) {
   const body = await request.text()
-  const signature = headers().get('stripe-signature')!
+  const signature = (await headers()).get('stripe-signature')!
 
   let event: Stripe.Event
 
@@ -118,7 +118,7 @@ async function handleSubscriptionDeleted(supabase: any, subscription: Stripe.Sub
 
 async function handlePaymentSucceeded(supabase: any, invoice: Stripe.Invoice) {
   // Log successful payment
-  const organizationId = invoice.subscription_details?.metadata?.organizationId
+  const organizationId = (invoice as any).subscription_details?.metadata?.organizationId
   if (!organizationId) return
 
   await supabase.from('billing_events').insert({
@@ -132,7 +132,7 @@ async function handlePaymentSucceeded(supabase: any, invoice: Stripe.Invoice) {
 
 async function handlePaymentFailed(supabase: any, invoice: Stripe.Invoice) {
   // Log failed payment and potentially downgrade
-  const organizationId = invoice.subscription_details?.metadata?.organizationId
+  const organizationId = (invoice as any).subscription_details?.metadata?.organizationId
   if (!organizationId) return
 
   await supabase.from('billing_events').insert({

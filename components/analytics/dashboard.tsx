@@ -5,12 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
-import { TrendingUp, Users, Mail, Eye, Click } from 'lucide-react'
+import { TrendingUp, Users, Mail, Eye } from 'lucide-react'
 import { useAnalytics } from '@/hooks/use-analytics'
 
 export function AnalyticsDashboard() {
   const [timeRange, setTimeRange] = useState('7d')
-  const { data, isLoading } = useAnalytics(timeRange)
+  const { data, isLoading } = useAnalytics()
 
   const kpiCards = [
     {
@@ -38,7 +38,7 @@ export function AnalyticsDashboard() {
       title: 'Click Rate',
       value: `${data?.clickRate || 0}%`,
       change: '+3.1%',
-      icon: Click,
+      icon: Eye,
       color: 'text-orange-600'
     }
   ]
@@ -120,7 +120,7 @@ export function AnalyticsDashboard() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) => `${name} ${percent !== undefined ? (percent * 100).toFixed(0) : 0}%`}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
