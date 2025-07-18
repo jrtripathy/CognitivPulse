@@ -36,7 +36,19 @@ export interface Workflow {
 }
 
 export class WorkflowEngine {
-  private supabase = createAdminClient()
+  private supabase: any
+  private emailQueue: any
+  private socialQueue: any
+
+  constructor(
+    supabase?: any,
+    emailQueue?: any,
+    socialQueue?: any
+  ) {
+    this.supabase = supabase || createAdminClient()
+    this.emailQueue = emailQueue || emailQueue
+    this.socialQueue = socialQueue || socialQueue
+  }
 
   async triggerWorkflow(
     trigger: WorkflowTrigger,
@@ -209,7 +221,7 @@ export class WorkflowEngine {
     )
 
     // Add to email queue
-    await emailQueue.add('send-automation-email', {
+    await this.emailQueue.add('send-automation-email', {
       to: execution.contact.email,
       subject: this.personalizeContent(subject, execution.contact, customData),
       html: personalizedContent,
@@ -238,7 +250,7 @@ export class WorkflowEngine {
       execution.trigger_data
     )
 
-    await socialQueue.add('post-automation', {
+    await this.socialQueue.add('post-automation', {
       content: personalizedContent,
       platforms,
       accountIds,

@@ -1,8 +1,13 @@
 import { createClient } from './client'
 import { AuthError, User } from '@supabase/supabase-js'
 
+
 export class AuthService {
-  private supabase = createClient()
+  private supabase: ReturnType<typeof createClient>
+
+  constructor(supabaseClient?: ReturnType<typeof createClient>) {
+    this.supabase = supabaseClient || createClient()
+  }
 
   async signUp(email: string, password: string, organizationName: string) {
     try {
